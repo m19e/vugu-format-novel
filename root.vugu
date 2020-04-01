@@ -1,30 +1,22 @@
 <div class="my-first-vugu-comp">
-    <div class="container">
-        <div class="row p-5">
-            <div class="form-group">
-                <label>変換したいテキストを入力してください</label>
-                <textarea
-                    @change="data.HandleChange(event)"
-                    class="form-control"
-                    name=""
-                    rows="3"
-                ></textarea>
-                <button
-                    @click="data.Format()"
-                    class="btn btn-primary btn-lg btn-block my-1"
-                >
-                    ↓Format↓
-                </button>
-                <div class="form-group">
-                    <label>変換したよ</label>
-                    <textarea
-                        vg-html="data.Result"
-                        class="form-control"
-                        name=""
-                        rows="3"
-                    ></textarea>
-                </div>
-            </div>
+    <div class="container-fluid p-5">
+        <div class="form-group">
+            <textarea
+                @change="data.HandleChange(event)"
+                class="form-control"
+                placeholder="変換したいテキストを入力"
+                style="height:40vh; resize:none;"
+            ></textarea>
+        </div>
+        <button @click="data.Format()" class="btn btn-primary btn-lg btn-block">
+            Format
+        </button>
+        <div class="form-group my-3">
+            <textarea
+                vg-html="data.Result"
+                class="form-control"
+                style="height:40vh; resize:none;"
+            ></textarea>
         </div>
     </div>
 
@@ -44,18 +36,32 @@
 
 <script type="application/x-go">
     import "strings"
+
     type RootData struct {
         Text string
         Result string
     }
+
+    const checkList = "　「『#"
+
     func (data *RootData) HandleChange(event *vugu.DOMEvent) {
         data.Text = event.JSEvent().Get("target").Get("value").String()
     }
+
+    func checkBOL(s string) bool {
+        if s == "" { return false }
+        if strings.Contains(checkList, s[:1]) { return false }
+        return true
+    }
+
     func (data *RootData) Format() {
         var result string
         slice := strings.Split(data.Text, "\n")
         for _, str := range slice {
-            result += str
+            if checkBOL(str) {
+                str = "　" + str
+            }
+            result += str + "\n"
         }
         data.Result = result
     }
