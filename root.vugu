@@ -2,10 +2,11 @@
     <div class="container-fluid p-5">
         <div class="form-group">
             <textarea
+                id="text"
                 @change="data.HandleChange(event)"
                 class="form-control"
                 placeholder="変換したいテキストを入力"
-                style="height:40vh; resize:none;"
+                style="height:35vh; resize:none;"
             ></textarea>
         </div>
         <button @click="data.Format()" class="btn btn-primary btn-lg btn-block">
@@ -13,11 +14,16 @@
         </button>
         <div class="form-group my-3">
             <textarea
+                id="result"
                 vg-html="data.Result"
                 class="form-control"
                 style="height:40vh; resize:none;"
+                readonly
             ></textarea>
         </div>
+        <button type="button" @click="data.Copy()" class="btn btn-primary">
+            Copy
+        </button>
     </div>
 
     <link
@@ -35,7 +41,10 @@
 </style>
 
 <script type="application/x-go">
-    import "strings"
+    import (
+        "strings"
+        "syscall/js"
+    )
 
     type RootData struct {
         Text string
@@ -48,14 +57,22 @@
         data.Text = event.JSEvent().Get("target").Get("value").String()
     }
 
+    func (data *RootData) Copy() {
+        js.Global().Get("document").Call("getElementById", "result").Call("select")
+        js.Global().Get("document").Call("execCommand", "Copy")
+        js.Global().Get("window").Call("getSelection").Call("removeAllRanges")
+    }
+
     func checkBOL(s string) bool {
-        if s == "" { return false }
+        fmt.Println(s)
+        // if s == "" { return false }
         if strings.Contains(checkList, s[:1]) { return false }
         return true
     }
 
     func (data *RootData) Format() {
         var result string
+        fmt.Printf("%#v",data.Text)
         slice := strings.Split(data.Text, "\n")
         for _, str := range slice {
             if checkBOL(str) {
