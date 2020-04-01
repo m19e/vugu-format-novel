@@ -1,6 +1,6 @@
 # vugu-format-novel
 
-Format text for Novel.
+## Format text for Novel.
 
 Require: Go 1.12
 
