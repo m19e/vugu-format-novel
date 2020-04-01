@@ -6,9 +6,24 @@ import "fmt"
 import "reflect"
 import "github.com/vugu/vugu"
 
-type RootData struct{ Show bool }
+import "strings"
 
-func (data *RootData) Toggle() { data.Show = !data.Show }
+type RootData struct {
+	Text   string
+	Result string
+}
+
+func (data *RootData) HandleChange(event *vugu.DOMEvent) {
+	data.Text = event.JSEvent().Get("target").Get("value").String()
+}
+func (data *RootData) Format() {
+	var result string
+	slice := strings.Split(data.Text, "\n")
+	for _, str := range slice {
+		result += str
+	}
+	data.Result = result
+}
 
 var _ vugu.ComponentType = (*Root)(nil)
 
@@ -28,40 +43,112 @@ func (comp *Root) BuildVDOM(dataI interface{}) (vdom *vugu.VGNode, css *vugu.VGN
 		parent := n
 		n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n    ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
 		parent.AppendChild(n)
-		n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "button", DataAtom: vugu.VGAtom(102662), Namespace: "", Attr: []vugu.VGAttribute(nil)}
+		n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "div", DataAtom: vugu.VGAtom(92931), Namespace: "", Attr: []vugu.VGAttribute{vugu.VGAttribute{Namespace: "", Key: "class", Val: "container"}}}
 		parent.AppendChild(n)
-		// @click = { data.Toggle() }
-		{
-			var i_ interface{} = data
-			idat_ := reflect.ValueOf(&i_).Elem().InterfaceData()
-			var i2_ interface{} = data.Toggle
-			i2dat_ := reflect.ValueOf(&i2_).Elem().InterfaceData()
-			n.SetDOMEventHandler("click", vugu.DOMEventHandler{
-				ReceiverAndMethodHash: uint64(idat_[0]) ^ uint64(idat_[1]) ^ uint64(i2dat_[0]) ^ uint64(i2dat_[1]),
-				Method:                reflect.ValueOf(data).MethodByName("Toggle"),
-				Args:                  []interface{}{},
-			})
-		}
-		if false {
-			// force compiler to check arguments for type safety
-			data.Toggle()
-		}
 		{
 			parent := n
-			n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "Test", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
+			n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n        ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
 			parent.AppendChild(n)
-		}
-		n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n    ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
-		parent.AppendChild(n)
-		if data.Show {
-			n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "div", DataAtom: vugu.VGAtom(92931), Namespace: "", Attr: []vugu.VGAttribute(nil)}
+			n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "div", DataAtom: vugu.VGAtom(92931), Namespace: "", Attr: []vugu.VGAttribute{vugu.VGAttribute{Namespace: "", Key: "class", Val: "row p-5"}}}
 			parent.AppendChild(n)
 			{
 				parent := n
-				n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "I am here!", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
+				n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n            ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
+				parent.AppendChild(n)
+				n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "div", DataAtom: vugu.VGAtom(92931), Namespace: "", Attr: []vugu.VGAttribute{vugu.VGAttribute{Namespace: "", Key: "class", Val: "form-group"}}}
+				parent.AppendChild(n)
+				{
+					parent := n
+					n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n                ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
+					parent.AppendChild(n)
+					n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "label", DataAtom: vugu.VGAtom(22789), Namespace: "", Attr: []vugu.VGAttribute(nil)}
+					parent.AppendChild(n)
+					{
+						parent := n
+						n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "変換したいテキストを入力してください", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
+						parent.AppendChild(n)
+					}
+					n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n                ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
+					parent.AppendChild(n)
+					n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "textarea", DataAtom: vugu.VGAtom(217608), Namespace: "", Attr: []vugu.VGAttribute{vugu.VGAttribute{Namespace: "", Key: "class", Val: "form-control"}, vugu.VGAttribute{Namespace: "", Key: "name", Val: ""}, vugu.VGAttribute{Namespace: "", Key: "rows", Val: "3"}}}
+					parent.AppendChild(n)
+					// @change = { data.HandleChange(event) }
+					{
+						var i_ interface{} = data
+						idat_ := reflect.ValueOf(&i_).Elem().InterfaceData()
+						var i2_ interface{} = data.HandleChange
+						i2dat_ := reflect.ValueOf(&i2_).Elem().InterfaceData()
+						n.SetDOMEventHandler("change", vugu.DOMEventHandler{
+							ReceiverAndMethodHash: uint64(idat_[0]) ^ uint64(idat_[1]) ^ uint64(i2dat_[0]) ^ uint64(i2dat_[1]),
+							Method:                reflect.ValueOf(data).MethodByName("HandleChange"),
+							Args:                  []interface{}{event},
+						})
+					}
+					if false {
+						// force compiler to check arguments for type safety
+						data.HandleChange(event)
+					}
+					n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n                ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
+					parent.AppendChild(n)
+					n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "button", DataAtom: vugu.VGAtom(102662), Namespace: "", Attr: []vugu.VGAttribute{vugu.VGAttribute{Namespace: "", Key: "class", Val: "btn btn-primary btn-lg btn-block my-1"}}}
+					parent.AppendChild(n)
+					// @click = { data.Format() }
+					{
+						var i_ interface{} = data
+						idat_ := reflect.ValueOf(&i_).Elem().InterfaceData()
+						var i2_ interface{} = data.Format
+						i2dat_ := reflect.ValueOf(&i2_).Elem().InterfaceData()
+						n.SetDOMEventHandler("click", vugu.DOMEventHandler{
+							ReceiverAndMethodHash: uint64(idat_[0]) ^ uint64(idat_[1]) ^ uint64(i2dat_[0]) ^ uint64(i2dat_[1]),
+							Method:                reflect.ValueOf(data).MethodByName("Format"),
+							Args:                  []interface{}{},
+						})
+					}
+					if false {
+						// force compiler to check arguments for type safety
+						data.Format()
+					}
+					{
+						parent := n
+						n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n                    ↓Format↓\n                ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
+						parent.AppendChild(n)
+					}
+					n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n                ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
+					parent.AppendChild(n)
+					n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "div", DataAtom: vugu.VGAtom(92931), Namespace: "", Attr: []vugu.VGAttribute{vugu.VGAttribute{Namespace: "", Key: "class", Val: "form-group"}}}
+					parent.AppendChild(n)
+					{
+						parent := n
+						n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n                    ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
+						parent.AppendChild(n)
+						n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "label", DataAtom: vugu.VGAtom(22789), Namespace: "", Attr: []vugu.VGAttribute(nil)}
+						parent.AppendChild(n)
+						{
+							parent := n
+							n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "変換したよ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
+							parent.AppendChild(n)
+						}
+						n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n                    ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
+						parent.AppendChild(n)
+						n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "textarea", DataAtom: vugu.VGAtom(217608), Namespace: "", Attr: []vugu.VGAttribute{vugu.VGAttribute{Namespace: "", Key: "class", Val: "form-control"}, vugu.VGAttribute{Namespace: "", Key: "name", Val: ""}, vugu.VGAttribute{Namespace: "", Key: "rows", Val: "3"}}}
+						parent.AppendChild(n)
+						n.InnerHTML = fmt.Sprint(data.Result)
+						n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n                ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
+						parent.AppendChild(n)
+					}
+					n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n            ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
+					parent.AppendChild(n)
+				}
+				n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n        ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
 				parent.AppendChild(n)
 			}
+			n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n    ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
+			parent.AppendChild(n)
 		}
+		n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n\n    ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
+		parent.AppendChild(n)
+		n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "link", DataAtom: vugu.VGAtom(95236), Namespace: "", Attr: []vugu.VGAttribute{vugu.VGAttribute{Namespace: "", Key: "rel", Val: "stylesheet"}, vugu.VGAttribute{Namespace: "", Key: "href", Val: "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"}, vugu.VGAttribute{Namespace: "", Key: "integrity", Val: "sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"}, vugu.VGAttribute{Namespace: "", Key: "crossorigin", Val: "anonymous"}}}
+		parent.AppendChild(n)
 		n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
 		parent.AppendChild(n)
 	}

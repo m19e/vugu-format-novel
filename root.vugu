@@ -1,6 +1,39 @@
 <div class="my-first-vugu-comp">
-    <button @click="data.Toggle()">Test</button>
-    <div vg-if="data.Show">I am here!</div>
+    <div class="container">
+        <div class="row p-5">
+            <div class="form-group">
+                <label>変換したいテキストを入力してください</label>
+                <textarea
+                    @change="data.HandleChange(event)"
+                    class="form-control"
+                    name=""
+                    rows="3"
+                ></textarea>
+                <button
+                    @click="data.Format()"
+                    class="btn btn-primary btn-lg btn-block my-1"
+                >
+                    ↓Format↓
+                </button>
+                <div class="form-group">
+                    <label>変換したよ</label>
+                    <textarea
+                        vg-html="data.Result"
+                        class="form-control"
+                        name=""
+                        rows="3"
+                    ></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <link
+        rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous"
+    />
 </div>
 
 <style>
@@ -10,6 +43,20 @@
 </style>
 
 <script type="application/x-go">
-    type RootData struct { Show bool }
-    func (data *RootData) Toggle() { data.Show = !data.Show }
+    import "strings"
+    type RootData struct {
+        Text string
+        Result string
+    }
+    func (data *RootData) HandleChange(event *vugu.DOMEvent) {
+        data.Text = event.JSEvent().Get("target").Get("value").String()
+    }
+    func (data *RootData) Format() {
+        var result string
+        slice := strings.Split(data.Text, "\n")
+        for _, str := range slice {
+            result += str
+        }
+        data.Result = result
+    }
 </script>
