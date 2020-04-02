@@ -29,9 +29,10 @@ func (data *RootData) Copy() {
 }
 
 func checkBOL(s string) bool {
-	fmt.Println(s)
-	// if s == "" { return false }
-	if strings.Contains(checkList, s[:1]) {
+	if s == "" {
+		return false
+	}
+	if strings.Contains(checkList, string([]rune(s)[:1])) {
 		return false
 	}
 	return true
@@ -39,7 +40,6 @@ func checkBOL(s string) bool {
 
 func (data *RootData) Format() {
 	var result string
-	fmt.Printf("%#v", data.Text)
 	slice := strings.Split(data.Text, "\n")
 	for _, str := range slice {
 		if checkBOL(str) {
