@@ -38,12 +38,22 @@ func checkBOL(s string) bool {
 	return true
 }
 
+func checkEorQ(s string) bool {
+	if strings.Contains(s, "！") || strings.Contains(s, "？") {
+		return true
+	}
+	return false
+}
+
 func (data *RootData) Format() {
 	var result string
 	slice := strings.Split(data.Text, "\n")
 	for _, str := range slice {
 		if checkBOL(str) {
 			str = "　" + str
+		}
+		if checkEorQ(str) {
+			str = str + "《!?含むよ》"
 		}
 		result += str + "\n"
 	}
