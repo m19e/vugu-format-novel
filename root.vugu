@@ -6,7 +6,7 @@
                 @change="data.HandleChange(event)"
                 class="form-control"
                 placeholder="変換したいテキストを入力"
-                style="height:35vh; resize:none;"
+                style="height: 35vh; resize: none;"
             ></textarea>
         </div>
         <button @click="data.Format()" class="btn btn-primary btn-lg btn-block">
@@ -17,7 +17,7 @@
                 id="result"
                 vg-html="data.Result"
                 class="form-control"
-                style="height:40vh; resize:none;"
+                style="height: 40vh; resize: none;"
                 readonly
             ></textarea>
         </div>
