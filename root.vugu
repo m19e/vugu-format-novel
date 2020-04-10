@@ -42,6 +42,7 @@
 
 <script type="application/x-go">
     import (
+        "regexp"
         "strings"
         "syscall/js"
     )
@@ -76,10 +77,13 @@
 
     func (data *RootData) Format() {
         var result string
-        slice := strings.Split(data.Text, "\n")
+        txt := data.Text
+        r := regexp.MustCompile(`([？！])([^　？！」』])`)
+        txt = r.ReplaceAllString(txt, "${1}　${2}")
+        slice := strings.Split(txt, "\n")
         for _, str := range slice {
             if checkBOL(str) { str = "　" + str }
-            if checkEorQ(str) { str = str + "《!?含むよ》" }
+            // if checkEorQ(str) { str = str + "《!?含むよ》" }
             result += str + "\n"
         }
         data.Result = result

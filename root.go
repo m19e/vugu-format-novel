@@ -7,6 +7,7 @@ import "reflect"
 import "github.com/vugu/vugu"
 
 import (
+	"regexp"
 	"strings"
 	"syscall/js"
 )
@@ -47,14 +48,15 @@ func checkEorQ(s string) bool {
 
 func (data *RootData) Format() {
 	var result string
-	slice := strings.Split(data.Text, "\n")
+	txt := data.Text
+	r := regexp.MustCompile(`([？！])([^　？！」』])`)
+	txt = r.ReplaceAllString(txt, "${1}　${2}")
+	slice := strings.Split(txt, "\n")
 	for _, str := range slice {
 		if checkBOL(str) {
 			str = "　" + str
 		}
-		if checkEorQ(str) {
-			str = str + "《!?含むよ》"
-		}
+		// if checkEorQ(str) { str = str + "《!?含むよ》" }
 		result += str + "\n"
 	}
 	data.Result = result
@@ -90,7 +92,7 @@ func (comp *Root) BuildVDOM(dataI interface{}) (vdom *vugu.VGNode, css *vugu.VGN
 				parent := n
 				n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n            ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
 				parent.AppendChild(n)
-				n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "textarea", DataAtom: vugu.VGAtom(217608), Namespace: "", Attr: []vugu.VGAttribute{vugu.VGAttribute{Namespace: "", Key: "id", Val: "text"}, vugu.VGAttribute{Namespace: "", Key: "class", Val: "form-control"}, vugu.VGAttribute{Namespace: "", Key: "placeholder", Val: "変換したいテキストを入力"}, vugu.VGAttribute{Namespace: "", Key: "style", Val: "height:35vh; resize:none;"}}}
+				n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "textarea", DataAtom: vugu.VGAtom(217608), Namespace: "", Attr: []vugu.VGAttribute{vugu.VGAttribute{Namespace: "", Key: "id", Val: "text"}, vugu.VGAttribute{Namespace: "", Key: "class", Val: "form-control"}, vugu.VGAttribute{Namespace: "", Key: "placeholder", Val: "変換したいテキストを入力"}, vugu.VGAttribute{Namespace: "", Key: "style", Val: "height: 35vh; resize: none;"}}}
 				parent.AppendChild(n)
 				// @change = { data.HandleChange(event) }
 				{
@@ -144,7 +146,7 @@ func (comp *Root) BuildVDOM(dataI interface{}) (vdom *vugu.VGNode, css *vugu.VGN
 				parent := n
 				n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n            ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
 				parent.AppendChild(n)
-				n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "textarea", DataAtom: vugu.VGAtom(217608), Namespace: "", Attr: []vugu.VGAttribute{vugu.VGAttribute{Namespace: "", Key: "id", Val: "result"}, vugu.VGAttribute{Namespace: "", Key: "class", Val: "form-control"}, vugu.VGAttribute{Namespace: "", Key: "style", Val: "height:40vh; resize:none;"}, vugu.VGAttribute{Namespace: "", Key: "readonly", Val: ""}}}
+				n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "textarea", DataAtom: vugu.VGAtom(217608), Namespace: "", Attr: []vugu.VGAttribute{vugu.VGAttribute{Namespace: "", Key: "id", Val: "result"}, vugu.VGAttribute{Namespace: "", Key: "class", Val: "form-control"}, vugu.VGAttribute{Namespace: "", Key: "style", Val: "height: 40vh; resize: none;"}, vugu.VGAttribute{Namespace: "", Key: "readonly", Val: ""}}}
 				parent.AppendChild(n)
 				n.InnerHTML = fmt.Sprint(data.Result)
 				n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n        ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
