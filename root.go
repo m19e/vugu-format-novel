@@ -39,13 +39,6 @@ func checkBOL(s string) bool {
 	return true
 }
 
-func checkEorQ(s string) bool {
-	if strings.Contains(s, "！") || strings.Contains(s, "？") {
-		return true
-	}
-	return false
-}
-
 func (data *RootData) Format() {
 	var result string
 	txt := data.Text
@@ -56,7 +49,6 @@ func (data *RootData) Format() {
 		if checkBOL(str) {
 			str = "　" + str
 		}
-		// if checkEorQ(str) { str = str + "《!?含むよ》" }
 		result += str + "\n"
 	}
 	data.Result = result
