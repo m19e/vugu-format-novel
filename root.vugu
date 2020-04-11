@@ -11,13 +11,16 @@
             <p
                 style="
                     position: absolute;
-                    right: 1vw;
+                    right: 3vw;
                     bottom: 1vh;
                     margin: 0;
                     color: gray;
                 "
             >
-                <span vg-html="data.Count"></span> words
+                <span vg-html="data.PureCount"></span>(<span
+                    vg-html="data.PlainCount"
+                ></span
+                >) words
             </p>
         </div>
         <button @click="data.Format()" class="btn btn-primary btn-lg btn-block">
@@ -61,14 +64,16 @@
     type RootData struct {
         Text string
         Result string
-        Count int
+        PlainCount int
+        PureCount int
     }
 
     const checkList = "　「『#"
 
     func (data *RootData) HandleChange(event *vugu.DOMEvent) {
         data.Text = event.JSEvent().Get("target").Get("value").String()
-        data.Count = wc(data.Text)
+        data.PlainCount = wc(data.Text)
+        data.PureCount = wc(trim(data.Text))
     }
 
     func (data *RootData) Copy() {
@@ -79,6 +84,17 @@
 
     func wc(s string) int {
         return len([]rune(s))
+    }
+
+    func trim(s string) string {
+        return strings.NewReplacer(
+            "\r\n", "",
+            "\r", "",
+            "\n", "",
+            "\t", "",
+            "　", "",
+            " ", "",
+        ).Replace(s)
     }
 
     func checkBOL(s string) bool {

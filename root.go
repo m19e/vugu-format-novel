@@ -13,16 +13,18 @@ import (
 )
 
 type RootData struct {
-	Text   string
-	Result string
-	Count  int
+	Text       string
+	Result     string
+	PlainCount int
+	PureCount  int
 }
 
 const checkList = "　「『#"
 
 func (data *RootData) HandleChange(event *vugu.DOMEvent) {
 	data.Text = event.JSEvent().Get("target").Get("value").String()
-	data.Count = wc(data.Text)
+	data.PlainCount = wc(data.Text)
+	data.PureCount = wc(trim(data.Text))
 }
 
 func (data *RootData) Copy() {
@@ -33,6 +35,17 @@ func (data *RootData) Copy() {
 
 func wc(s string) int {
 	return len([]rune(s))
+}
+
+func trim(s string) string {
+	return strings.NewReplacer(
+		"\r\n", "",
+		"\r", "",
+		"\n", "",
+		"\t", "",
+		"　", "",
+		" ", "",
+	).Replace(s)
 }
 
 func checkBOL(s string) bool {
@@ -110,7 +123,7 @@ func (comp *Root) BuildVDOM(dataI interface{}) (vdom *vugu.VGNode, css *vugu.VGN
 				}
 				n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n            ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
 				parent.AppendChild(n)
-				n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "p", DataAtom: vugu.VGAtom(3073), Namespace: "", Attr: []vugu.VGAttribute{vugu.VGAttribute{Namespace: "", Key: "style", Val: "\n                    position: absolute;\n                    right: 1vw;\n                    bottom: 1vh;\n                    margin: 0;\n                    color: gray;\n                "}}}
+				n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "p", DataAtom: vugu.VGAtom(3073), Namespace: "", Attr: []vugu.VGAttribute{vugu.VGAttribute{Namespace: "", Key: "style", Val: "\n                    position: absolute;\n                    right: 3vw;\n                    bottom: 1vh;\n                    margin: 0;\n                    color: gray;\n                "}}}
 				parent.AppendChild(n)
 				{
 					parent := n
@@ -118,8 +131,13 @@ func (comp *Root) BuildVDOM(dataI interface{}) (vdom *vugu.VGNode, css *vugu.VGN
 					parent.AppendChild(n)
 					n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "span", DataAtom: vugu.VGAtom(40708), Namespace: "", Attr: []vugu.VGAttribute(nil)}
 					parent.AppendChild(n)
-					n.InnerHTML = fmt.Sprint(data.Count)
-					n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: " words\n            ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
+					n.InnerHTML = fmt.Sprint(data.PureCount)
+					n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "(", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
+					parent.AppendChild(n)
+					n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "span", DataAtom: vugu.VGAtom(40708), Namespace: "", Attr: []vugu.VGAttribute(nil)}
+					parent.AppendChild(n)
+					n.InnerHTML = fmt.Sprint(data.PlainCount)
+					n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: ") words\n            ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
 					parent.AppendChild(n)
 				}
 				n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n        ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
