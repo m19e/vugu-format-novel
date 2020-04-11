@@ -1,6 +1,6 @@
 <div class="my-first-vugu-comp">
     <div class="container-fluid p-5">
-        <div class="form-group">
+        <div class="form-group" style="position: relative;">
             <textarea
                 id="text"
                 @change="data.HandleChange(event)"
@@ -8,6 +8,17 @@
                 placeholder="変換したいテキストを入力"
                 style="height: 35vh; resize: none;"
             ></textarea>
+            <p
+                style="
+                    position: absolute;
+                    right: 1vw;
+                    bottom: 1vh;
+                    margin: 0;
+                    color: gray;
+                "
+            >
+                <span vg-html="data.Count"></span> words
+            </p>
         </div>
         <button @click="data.Format()" class="btn btn-primary btn-lg btn-block">
             Format
@@ -50,18 +61,24 @@
     type RootData struct {
         Text string
         Result string
+        Count int
     }
 
     const checkList = "　「『#"
 
     func (data *RootData) HandleChange(event *vugu.DOMEvent) {
         data.Text = event.JSEvent().Get("target").Get("value").String()
+        data.Count = wc(data.Text)
     }
 
     func (data *RootData) Copy() {
         js.Global().Get("document").Call("getElementById", "result").Call("select")
         js.Global().Get("document").Call("execCommand", "Copy")
         js.Global().Get("window").Call("getSelection").Call("removeAllRanges")
+    }
+
+    func wc(s string) int {
+        return len([]rune(s))
     }
 
     func checkBOL(s string) bool {

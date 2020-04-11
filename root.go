@@ -15,18 +15,24 @@ import (
 type RootData struct {
 	Text   string
 	Result string
+	Count  int
 }
 
 const checkList = "　「『#"
 
 func (data *RootData) HandleChange(event *vugu.DOMEvent) {
 	data.Text = event.JSEvent().Get("target").Get("value").String()
+	data.Count = wc(data.Text)
 }
 
 func (data *RootData) Copy() {
 	js.Global().Get("document").Call("getElementById", "result").Call("select")
 	js.Global().Get("document").Call("execCommand", "Copy")
 	js.Global().Get("window").Call("getSelection").Call("removeAllRanges")
+}
+
+func wc(s string) int {
+	return len([]rune(s))
 }
 
 func checkBOL(s string) bool {
@@ -78,7 +84,7 @@ func (comp *Root) BuildVDOM(dataI interface{}) (vdom *vugu.VGNode, css *vugu.VGN
 			parent := n
 			n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n        ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
 			parent.AppendChild(n)
-			n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "div", DataAtom: vugu.VGAtom(92931), Namespace: "", Attr: []vugu.VGAttribute{vugu.VGAttribute{Namespace: "", Key: "class", Val: "form-group"}}}
+			n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "div", DataAtom: vugu.VGAtom(92931), Namespace: "", Attr: []vugu.VGAttribute{vugu.VGAttribute{Namespace: "", Key: "class", Val: "form-group"}, vugu.VGAttribute{Namespace: "", Key: "style", Val: "position: relative;"}}}
 			parent.AppendChild(n)
 			{
 				parent := n
@@ -101,6 +107,20 @@ func (comp *Root) BuildVDOM(dataI interface{}) (vdom *vugu.VGNode, css *vugu.VGN
 				if false {
 					// force compiler to check arguments for type safety
 					data.HandleChange(event)
+				}
+				n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n            ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
+				parent.AppendChild(n)
+				n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "p", DataAtom: vugu.VGAtom(3073), Namespace: "", Attr: []vugu.VGAttribute{vugu.VGAttribute{Namespace: "", Key: "style", Val: "\n                    position: absolute;\n                    right: 1vw;\n                    bottom: 1vh;\n                    margin: 0;\n                    color: gray;\n                "}}}
+				parent.AppendChild(n)
+				{
+					parent := n
+					n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n                ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
+					parent.AppendChild(n)
+					n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "span", DataAtom: vugu.VGAtom(40708), Namespace: "", Attr: []vugu.VGAttribute(nil)}
+					parent.AppendChild(n)
+					n.InnerHTML = fmt.Sprint(data.Count)
+					n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: " words\n            ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
+					parent.AppendChild(n)
 				}
 				n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n        ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
 				parent.AppendChild(n)
