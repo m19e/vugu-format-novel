@@ -92,13 +92,13 @@ func (comp *Root) BuildVDOM(dataI interface{}) (vdom *vugu.VGNode, css *vugu.VGN
 				parent.AppendChild(n)
 				n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "textarea", DataAtom: vugu.VGAtom(217608), Namespace: "", Attr: []vugu.VGAttribute{vugu.VGAttribute{Namespace: "", Key: "id", Val: "text"}, vugu.VGAttribute{Namespace: "", Key: "class", Val: "form-control"}, vugu.VGAttribute{Namespace: "", Key: "placeholder", Val: "変換したいテキストを入力"}, vugu.VGAttribute{Namespace: "", Key: "style", Val: "height: 35vh; resize: none;"}}}
 				parent.AppendChild(n)
-				// @change = { data.HandleChange(event) }
+				// @input = { data.HandleChange(event) }
 				{
 					var i_ interface{} = data
 					idat_ := reflect.ValueOf(&i_).Elem().InterfaceData()
 					var i2_ interface{} = data.HandleChange
 					i2dat_ := reflect.ValueOf(&i2_).Elem().InterfaceData()
-					n.SetDOMEventHandler("change", vugu.DOMEventHandler{
+					n.SetDOMEventHandler("input", vugu.DOMEventHandler{
 						ReceiverAndMethodHash: uint64(idat_[0]) ^ uint64(idat_[1]) ^ uint64(i2dat_[0]) ^ uint64(i2dat_[1]),
 						Method:                reflect.ValueOf(data).MethodByName("HandleChange"),
 						Args:                  []interface{}{event},

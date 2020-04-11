@@ -3,7 +3,7 @@
         <div class="form-group" style="position: relative;">
             <textarea
                 id="text"
-                @change="data.HandleChange(event)"
+                @input="data.HandleChange(event)"
                 class="form-control"
                 placeholder="変換したいテキストを入力"
                 style="height: 35vh; resize: none;"
