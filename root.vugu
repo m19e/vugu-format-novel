@@ -5,7 +5,7 @@
                 id="text"
                 @input="data.HandleChange(event)"
                 class="form-control"
-                placeholder="変換したいテキストを入力"
+                placeholder="Text"
                 style="height: 35vh; resize: none;"
             ></textarea>
             <p
@@ -32,6 +32,7 @@
                 vg-html="data.Result"
                 class="form-control"
                 style="height: 40vh; resize: none;"
+                placeholder="Result"
                 readonly
             ></textarea>
         </div>
