@@ -99,7 +99,7 @@ func (comp *Root) BuildVDOM(dataI interface{}) (vdom *vugu.VGNode, css *vugu.VGN
 		parent := n
 		n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n    ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
 		parent.AppendChild(n)
-		n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "div", DataAtom: vugu.VGAtom(92931), Namespace: "", Attr: []vugu.VGAttribute{vugu.VGAttribute{Namespace: "", Key: "class", Val: "container-fluid p-5"}}}
+		n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "div", DataAtom: vugu.VGAtom(92931), Namespace: "", Attr: []vugu.VGAttribute{vugu.VGAttribute{Namespace: "", Key: "class", Val: "container-fluid p-4"}}}
 		parent.AppendChild(n)
 		{
 			parent := n
@@ -111,7 +111,7 @@ func (comp *Root) BuildVDOM(dataI interface{}) (vdom *vugu.VGNode, css *vugu.VGN
 				parent := n
 				n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n            ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
 				parent.AppendChild(n)
-				n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "textarea", DataAtom: vugu.VGAtom(217608), Namespace: "", Attr: []vugu.VGAttribute{vugu.VGAttribute{Namespace: "", Key: "id", Val: "text"}, vugu.VGAttribute{Namespace: "", Key: "class", Val: "form-control"}, vugu.VGAttribute{Namespace: "", Key: "placeholder", Val: "Text"}, vugu.VGAttribute{Namespace: "", Key: "style", Val: "height: 35vh; resize: none;"}}}
+				n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "textarea", DataAtom: vugu.VGAtom(217608), Namespace: "", Attr: []vugu.VGAttribute{vugu.VGAttribute{Namespace: "", Key: "id", Val: "text"}, vugu.VGAttribute{Namespace: "", Key: "class", Val: "form-control"}, vugu.VGAttribute{Namespace: "", Key: "placeholder", Val: "Text"}, vugu.VGAttribute{Namespace: "", Key: "style", Val: "height: 40vh; resize: none;"}}}
 				parent.AppendChild(n)
 				// @input = { data.HandleChange(event) }
 				{
@@ -192,7 +192,7 @@ func (comp *Root) BuildVDOM(dataI interface{}) (vdom *vugu.VGNode, css *vugu.VGN
 			}
 			n = &vugu.VGNode{Type: vugu.VGNodeType(1), Data: "\n        ", DataAtom: vugu.VGAtom(0), Namespace: "", Attr: []vugu.VGAttribute(nil)}
 			parent.AppendChild(n)
-			n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "button", DataAtom: vugu.VGAtom(102662), Namespace: "", Attr: []vugu.VGAttribute{vugu.VGAttribute{Namespace: "", Key: "type", Val: "button"}, vugu.VGAttribute{Namespace: "", Key: "class", Val: "btn btn-primary"}}}
+			n = &vugu.VGNode{Type: vugu.VGNodeType(3), Data: "button", DataAtom: vugu.VGAtom(102662), Namespace: "", Attr: []vugu.VGAttribute{vugu.VGAttribute{Namespace: "", Key: "type", Val: "button"}, vugu.VGAttribute{Namespace: "", Key: "class", Val: "btn btn-primary btn-lg btn-block"}}}
 			parent.AppendChild(n)
 			// @click = { data.Copy() }
 			{

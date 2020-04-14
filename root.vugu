@@ -1,12 +1,12 @@
 <div class="my-first-vugu-comp" style="height: 100vh;">
-    <div class="container-fluid p-5">
+    <div class="container-fluid p-4">
         <div class="form-group" style="position: relative;">
             <textarea
                 id="text"
                 @input="data.HandleChange(event)"
                 class="form-control"
                 placeholder="Text"
-                style="height: 35vh; resize: none;"
+                style="height: 40vh; resize: none;"
             ></textarea>
             <p
                 style="
@@ -36,7 +36,11 @@
                 readonly
             ></textarea>
         </div>
-        <button type="button" @click="data.Copy()" class="btn btn-primary">
+        <button
+            type="button"
+            @click="data.Copy()"
+            class="btn btn-primary btn-lg btn-block"
+        >
             Copy
         </button>
     </div>
