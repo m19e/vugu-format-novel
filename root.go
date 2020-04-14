@@ -48,6 +48,14 @@ func trim(s string) string {
 	).Replace(s)
 }
 
+func widen(s string) string {
+	return strings.NewReplacer(
+		"!", "！",
+		"?", "？",
+		" ", "　",
+	).Replace(s)
+}
+
 func checkBOL(s string) bool {
 	if s == "" {
 		return false
@@ -61,7 +69,8 @@ func checkBOL(s string) bool {
 func (data *RootData) Format() {
 	var result string
 	r := regexp.MustCompile(`([？！])([^　？！」』])`)
-	txt := r.ReplaceAllString(data.Text, "${1}　${2}")
+	txt := widen(data.Text)
+	txt = r.ReplaceAllString(txt, "${1}　${2}")
 	slice := strings.Split(txt, "\n")
 	for _, str := range slice {
 		if checkBOL(str) {
